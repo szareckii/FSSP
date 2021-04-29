@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search_fab"
+        android:src="@drawable/ic_search"
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/todo" />
+
+    <LinearLayout
+        android:id="@+id/success_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/lastnameTextViewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:text="@string/lastname"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/lastnameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/lastname"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.182"
+                app:layout_constraintStart_toEndOf="@+id/lastnameTextViewLabel"
+                app:layout_constraintTop_toTopOf="@+id/lastnameTextViewLabel" />
+
+            <TextView
+                android:id="@+id/firstnameTextViewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/firstname"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/lastnameTextViewLabel"
+                app:layout_constraintTop_toBottomOf="@+id/lastnameTextViewLabel" />
+
+            <TextView
+                android:id="@+id/firstnameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/firstname"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/lastnameTextView"
+                app:layout_constraintTop_toTopOf="@+id/firstnameTextViewLabel" />
+
+            <TextView
+                android:id="@+id/secondnameTextViewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/secondname"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/firstnameTextViewLabel"
+                app:layout_constraintTop_toBottomOf="@+id/firstnameTextViewLabel" />
+
+            <TextView
+                android:id="@+id/secondnameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/secondname"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/firstnameTextView"
+                app:layout_constraintTop_toTopOf="@+id/secondnameTextViewLabel" />
+
+            <TextView
+                android:id="@+id/birthdateTextViewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/birthdate"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/secondnameTextViewLabel"
+                app:layout_constraintTop_toBottomOf="@+id/secondnameTextViewLabel" />
+
+            <TextView
+                android:id="@+id/birthdateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/birthdate"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/secondnameTextView"
+                app:layout_constraintTop_toTopOf="@+id/birthdateTextViewLabel" />
+
+            <TextView
+                android:id="@+id/regionTextViewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/regionLabel"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/birthdateTextViewLabel"
+                app:layout_constraintTop_toBottomOf="@+id/birthdateTextViewLabel" />
+
+            <TextView
+                android:id="@+id/regionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/regionLabel"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/birthdateTextView"
+                app:layout_constraintTop_toTopOf="@+id/regionTextViewLabel" />
+
+            <TextView
+                android:id="@+id/taskTextViewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/task"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/regionTextViewLabel"
+                app:layout_constraintTop_toBottomOf="@+id/regionTextViewLabel" />
+
+            <TextView
+                android:id="@+id/taskTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/task"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="@+id/regionTextView"
+                app:layout_constraintTop_toTopOf="@+id/taskTextViewLabel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/loading_frame_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/progress_bar_horizontal"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/progress_bar_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/error_linear_layout"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/error_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_textview_stub"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reload_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reload_button"/>
+    </LinearLayout>
+</FrameLayout>
+

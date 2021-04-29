@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Search in the base FSSP</string>
+    <string name="error_textview_stub">Error</string>
+    <string name="reload_button">Reload</string>
+    <string name="undefined_error">Undefined error</string>
+    <string name="empty_server_response_on_success">Response from server is empty</string>
+    <string name="button_search">Search</string>
+    <string name="search_lastname_hint">Lastname*</string>
+    <string name="search_firstname_hint">Firstname*</string>
+    <string name="search_secondname_hint">Secondname</string>
+    <string name="delete_description">X</string>
+    <string name="search_region_hint">Region</string>
+    <string name="search_birth_hint">Date of birth</string>
+    <string name="region" translatable="false">"10 Республика Карелия"</string>
+    <string name="lastname">Lastname</string>
+    <string name="firstname">Firstname</string>
+    <string name="secondname">Secondname</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="regionLabel">Region</string>
+    <string name="task" translatable="false">Task</string>
+    <string name="todo" translatable="false">TODO</string>
+</resources>

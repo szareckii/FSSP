@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Поиск по БД ФССП</string>
+    <string name="error_textview_stub">Ошибка</string>
+    <string name="reload_button">Перегрузить</string>
+    <string name="undefined_error">Неожиданная ошибка</string>
+    <string name="empty_server_response_on_success">Ответ от сервера пустой</string>
+    <string name="button_search">Поиск</string>
+    <string name="search_lastname_hint">Фамилия*</string>
+    <string name="search_firstname_hint">Имя*</string>
+    <string name="search_secondname_hint">Отчество</string>
+    <string name="delete_description">X</string>
+    <string name="search_region_hint">Регион</string>
+    <string name="search_birth_hint">Дата рождения</string>
+    <string name="lastname">Фамилия</string>
+    <string name="firstname">Имя</string>
+    <string name="secondname">Отчество</string>
+    <string name="birthdate">Дата рождения</string>
+    <string name="regionLabel">Регион</string>
+</resources>
