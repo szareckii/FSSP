@@ -3,7 +3,7 @@ package com.szareckii.searchinthebasefssp.model.datasource
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.szareckii.searchinthebasefssp.BuildConfig
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
+import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,10 +22,10 @@ class RetrofitImplementation : DataSource {
         return getService().searchPhysical(BuildConfig.FSSP_API_KEY, region, lastname, firstname, secondname, birthdate)
     }
 
-     override fun getDataStatus(
+     override fun getDataResult(
              task: String
-     ): Observable<DataModelStatus> {
-        return getService().status(BuildConfig.FSSP_API_KEY, task)
+     ): Observable<DataModelResult> {
+        return getService().getResult(BuildConfig.FSSP_API_KEY, task)
     }
 
     private fun getService(): ApiService {

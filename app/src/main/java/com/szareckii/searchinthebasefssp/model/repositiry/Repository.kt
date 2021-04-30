@@ -1,8 +1,10 @@
 package com.szareckii.searchinthebasefssp.model.repositiry
 
+import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
+import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
 import io.reactivex.Observable
 
-interface Repository<T> {
+interface Repository {
 
     fun getData(
         region: String,
@@ -10,5 +12,9 @@ interface Repository<T> {
         firstname: String,
         secondname: String? = null,
         birthdate: String? = null
-    ): Observable<T>
+    ): Observable<DataModelPhysical>
+
+    fun getResult(
+            task: String
+    ): Observable<DataModelResult>
 }

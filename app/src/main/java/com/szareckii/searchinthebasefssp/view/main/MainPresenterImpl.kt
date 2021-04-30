@@ -1,7 +1,6 @@
 package com.szareckii.searchinthebasefssp.view.main
 
-import com.szareckii.searchinthebasefssp.model.data.physical.AppStatePhysical
-import com.szareckii.searchinthebasefssp.model.data.status.AppStateStatus
+import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.model.datasource.DataSourceLocal
 import com.szareckii.searchinthebasefssp.model.datasource.DataSourceRemote
 import com.szareckii.searchinthebasefssp.model.repositiry.RepositoryImplementation
@@ -10,8 +9,9 @@ import com.szareckii.searchinthebasefssp.rx.SchedulerProvider
 import com.szareckii.searchinthebasefssp.view.base.View
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
+import java.util.concurrent.TimeUnit
 
-class MainPresenterImpl<T : AppStatePhysical, V : View>(
+class MainPresenterImpl<T : AppState, V : View>(
     private val interactor: MainInteractor = MainInteractor(
         RepositoryImplementation(DataSourceRemote()),
         RepositoryImplementation(DataSourceLocal())
@@ -42,31 +42,37 @@ class MainPresenterImpl<T : AppStatePhysical, V : View>(
         birthdate: String?,
         isOnline: Boolean
     ) {
-        currentView?.renderData(AppStatePhysical.Loading(null))
+        currentView?.renderData(AppState.Loading(null))
 
         compositeDisposable.add(
-            interactor.getDataPhysical(
-                region,
-                lastname,
-                firstname,
-                secondname,
-                birthdate,
-                isOnline
-            ).subscribeOn(schedulerProvider.io())
-             .observeOn(schedulerProvider.ui())
-            .subscribeWith(getObserver())
+                interactor.getDataPhysical(
+                        region,
+                        lastname,
+                        firstname,
+                        secondname,
+                        birthdate,
+                        isOnline
+                ).delay(3000, TimeUnit.MILLISECONDS)
+                .flatMap { dataPhysical ->
+                    dataPhysical .responsePhysical?.task?.let {
+                        interactor.getDataResult(it)
+                    }
+                }
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribeWith(getObserver())
         )
     }
 
-    private fun getObserver(): DisposableObserver<AppStatePhysical> {
-        return object : DisposableObserver<AppStatePhysical>() {
+    private fun getObserver(): DisposableObserver<AppState> {
+        return object : DisposableObserver<AppState>() {
 
-            override fun onNext(appStatePhysical: AppStatePhysical) {
-                currentView?.renderData(appStatePhysical)
+            override fun onNext(appState: AppState) {
+                currentView?.renderData(appState)
             }
 
             override fun onError(e: Throwable) {
-                currentView?.renderData(AppStatePhysical.Error(e))
+                currentView?.renderData(AppState.Error(e))
             }
 
             override fun onComplete() {

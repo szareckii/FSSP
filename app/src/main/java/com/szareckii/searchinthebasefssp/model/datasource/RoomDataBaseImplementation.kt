@@ -1,7 +1,7 @@
 package com.szareckii.searchinthebasefssp.model.datasource
 
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
+import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
 import io.reactivex.Observable
 
 class RoomDataBaseImplementation : DataSource {
@@ -16,7 +16,7 @@ class RoomDataBaseImplementation : DataSource {
         TODO("not implemented")
     }
 
-    override fun getDataStatus(task: String): Observable<DataModelStatus> {
+    override fun getDataResult(task: String): Observable<DataModelResult> {
         TODO("not implemented")
     }
 }

@@ -1,7 +1,7 @@
 package com.szareckii.searchinthebasefssp.model.datasource
 
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
+import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
 import io.reactivex.Observable
 
 class DataSourceLocal(
@@ -23,6 +23,6 @@ class DataSourceLocal(
                 birthdate
             )
 
-    override fun getDataStatus(task: String): Observable<DataModelStatus> =
-            remoteProvider.getDataStatus(task)
+    override fun getDataResult(task: String): Observable<DataModelResult> =
+            remoteProvider.getDataResult(task)
 }

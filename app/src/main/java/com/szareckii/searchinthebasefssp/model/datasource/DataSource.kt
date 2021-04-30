@@ -1,7 +1,7 @@
 package com.szareckii.searchinthebasefssp.model.datasource
 
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
+import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
 import io.reactivex.Observable
 
 interface DataSource {
@@ -14,7 +14,7 @@ interface DataSource {
         birthdate: String? = null
     ): Observable<DataModelPhysical>
 
-    fun getDataStatus(
+    fun getDataResult(
         task: String
-    ): Observable<DataModelStatus>
+    ): Observable<DataModelResult>
 }
