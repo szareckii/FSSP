@@ -1,7 +1,7 @@
 package com.szareckii.searchinthebasefssp.presenter
 
-import com.szareckii.searchinthebasefssp.model.data.physical.AppStatePhysical
-import com.szareckii.searchinthebasefssp.model.data.status.AppStateStatus
+import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
+import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import io.reactivex.Observable
 
 interface Interactor {
@@ -13,9 +13,9 @@ interface Interactor {
         secondname: String?,
         birthdate: String?,
         fromRemoteSource: Boolean
-    ): Observable<AppStatePhysical>
+    ): Observable<DataModelPhysical>
 
-//    fun getDataStatus(
-//        task: String,
-//    ): Observable<AppStateStatus>
+    fun getDataResult(
+        task: String,
+    ): Observable<AppState>
 }

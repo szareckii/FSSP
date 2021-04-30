@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.szareckii.searchinthebasefssp.R
-import com.szareckii.searchinthebasefssp.model.data.physical.AppStatePhysical
+import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.presenter.Presenter
 import com.szareckii.searchinthebasefssp.utils.regionMapNumber
 import com.szareckii.searchinthebasefssp.view.base.BaseActivity
 import com.szareckii.searchinthebasefssp.view.base.View
 import kotlinx.android.synthetic.main.activity_main.*
 
-
-class MainActivity : BaseActivity<AppStatePhysical>() {
+class MainActivity : BaseActivity<AppState>() {
 
     lateinit var lastName : String
     lateinit var firstName : String
@@ -20,7 +19,7 @@ class MainActivity : BaseActivity<AppStatePhysical>() {
     lateinit var birth : String
     lateinit var reg : String
 
-    override fun createPresenter(): Presenter<AppStatePhysical, View> {
+    override fun createPresenter(): Presenter<AppState, View> {
         return MainPresenterImpl()
     }
 
@@ -63,31 +62,32 @@ class MainActivity : BaseActivity<AppStatePhysical>() {
         }
     }
 
-    override fun renderData(appStatePhysical: AppStatePhysical) {
+    override fun renderData(appState: AppState) {
         renderPhysical()
-        when (appStatePhysical) {
-            is AppStatePhysical.Success -> {
-                val dataModel = appStatePhysical.data
+        when (appState) {
+            is AppState.Success -> {
+                val dataModel = appState.data
                 if (dataModel == null) {
                     showErrorScreen(getString(R.string.empty_server_response_on_success))
                 } else {
                     showViewSuccess()
-                    taskTextView.text = dataModel.responsePhysical?.task ?: "Пусто"
+                    taskTextView.text = dataModel.responseResult?.resultList?.
+                    get(0)?.resultDetailList?.get(0)?.details ?: "Пусто"
                 }
             }
-            is AppStatePhysical.Loading -> {
+            is AppState.Loading -> {
                 showViewLoading()
-                if (appStatePhysical.progress != null) {
+                if (appState.progress != null) {
                     progress_bar_horizontal.visibility = VISIBLE
                     progress_bar_round.visibility = GONE
-                    progress_bar_horizontal.progress = appStatePhysical.progress
+                    progress_bar_horizontal.progress = appState.progress
                 } else {
                     progress_bar_horizontal.visibility = GONE
                     progress_bar_round.visibility = VISIBLE
                 }
             }
-            is AppStatePhysical.Error -> {
-                showErrorScreen(appStatePhysical.error.message)
+            is AppState.Error -> {
+                showErrorScreen(appState.error.message)
             }
         }
     }

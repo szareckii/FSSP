@@ -1,16 +1,15 @@
 package com.szareckii.searchinthebasefssp.view.main
 
-import com.szareckii.searchinthebasefssp.model.data.physical.AppStatePhysical
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.status.AppStateStatus
+import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.model.repositiry.Repository
 import com.szareckii.searchinthebasefssp.presenter.Interactor
 import io.reactivex.Observable
 
 class MainInteractor(
-    private val remoteRepository: Repository<DataModelPhysical>,
-    private val localRepository: Repository<DataModelPhysical>
-) : Interactor{
+    private val remoteRepository: Repository,
+    private val localRepository: Repository
+    ) : Interactor{
 
     override fun getDataPhysical(
             region: String,
@@ -19,7 +18,7 @@ class MainInteractor(
             secondname: String?,
             birthdate: String?,
             fromRemoteSource: Boolean
-    ): Observable<AppStatePhysical> {
+    ): Observable<DataModelPhysical> {
         return if (fromRemoteSource) {
             remoteRepository.getData(
                 region,
@@ -27,9 +26,7 @@ class MainInteractor(
                 firstname,
                 secondname,
                 birthdate
-            ).map {
-                AppStatePhysical.Success(it)
-            }
+            )
         } else {
             localRepository.getData(
                 region,
@@ -37,9 +34,13 @@ class MainInteractor(
                 firstname,
                 secondname,
                 birthdate
-            ).map {
-                AppStatePhysical.Success(it)
-            }
+            )
+        }
+    }
+
+    override fun getDataResult(task: String): Observable<AppState> {
+        return remoteRepository.getResult(task).map {
+            AppState.Success(it)
         }
     }
 }

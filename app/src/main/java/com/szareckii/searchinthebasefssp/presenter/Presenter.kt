@@ -1,9 +1,9 @@
 package com.szareckii.searchinthebasefssp.presenter
 
-import com.szareckii.searchinthebasefssp.model.data.physical.AppStatePhysical
+import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.view.base.View
 
-interface Presenter<T : AppStatePhysical, V : View> {
+interface Presenter<T : AppState, V : View> {
 
     fun attachView(view: V)
 

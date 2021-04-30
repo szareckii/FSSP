@@ -1,7 +1,7 @@
 package com.szareckii.searchinthebasefssp.model.datasource
 
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
+import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -18,11 +18,11 @@ interface ApiService {
         @Query("birthdate") birthdate: String? = null
     ): Observable<DataModelPhysical>
 
-    @GET("status")
-    fun status(
+    @GET("result")
+    fun getResult(
             @Query("token") token: String,
             @Query("task") task: String
-    ): Observable<DataModelStatus>
+    ): Observable<DataModelResult>
 
 }
 

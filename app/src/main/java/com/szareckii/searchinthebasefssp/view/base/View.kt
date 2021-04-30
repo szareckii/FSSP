@@ -1,7 +1,7 @@
 package com.szareckii.searchinthebasefssp.view.base
 
-import com.szareckii.searchinthebasefssp.model.data.physical.AppStatePhysical
+import com.szareckii.searchinthebasefssp.model.data.result.AppState
 
 interface View {
-    fun renderData(appStatePhysical: AppStatePhysical)
+    fun renderData(appState: AppState)
 }
