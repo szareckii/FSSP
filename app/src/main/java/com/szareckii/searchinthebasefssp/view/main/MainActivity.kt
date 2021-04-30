@@ -71,8 +71,8 @@ class MainActivity : BaseActivity<AppState>() {
                     showErrorScreen(getString(R.string.empty_server_response_on_success))
                 } else {
                     showViewSuccess()
-                    taskTextView.text = dataModel.responseResult?.resultList?.get(0)?.resultDetailList?.get(0)?.details
-                            ?: "Пусто"
+                    taskTextView.text = dataModel.responseResult?.resultList?.
+                    get(0)?.resultDetailList?.get(0)?.details ?: "Пусто"
                 }
             }
             is AppState.Loading -> {
