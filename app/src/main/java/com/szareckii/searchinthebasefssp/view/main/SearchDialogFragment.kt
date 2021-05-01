@@ -50,6 +50,7 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
 
     private val onSearchButtonClickListener =
         View.OnClickListener {
+            regionEditText = region_edit_text.text.toString()
             onSearchClickListener?.onClick(
              regionMap[regionEditText] ?: "10",
                     lastnameEditText.text.toString(),
@@ -76,10 +77,6 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         super.onViewCreated(view, savedInstanceState)
         setListOfRegions()
         setEditTextOfPhusical()
-
-        region_input_layout.setOnClickListener {
-            regionEditText = region_edit_text.text.toString()
-        }
 
         pickDate()
         lastnameEditText.addTextChangedListener(textWatcher)
