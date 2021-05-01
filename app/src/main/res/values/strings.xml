@@ -19,4 +19,6 @@
     <string name="regionLabel">Region</string>
     <string name="task" translatable="false">Task</string>
     <string name="todo" translatable="false">TODO</string>
+    <string name="preference_file_key" translatable="false">settings</string>
+    <string name="saved_default_key" translatable="false"> </string>
 </resources>

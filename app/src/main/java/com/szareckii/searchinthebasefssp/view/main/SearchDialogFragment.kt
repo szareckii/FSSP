@@ -1,6 +1,7 @@
 package com.szareckii.searchinthebasefssp.view.main
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -27,6 +28,8 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
     private lateinit var searchButton: TextView
 
     private var onSearchClickListener: OnSearchClickListener? = null
+
+    private lateinit var adapter : ArrayAdapter<String>
 
     var day = 0
     var month = 0
@@ -59,7 +62,9 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
                     birthdateEditText.text.toString(),
             )
             dismiss()
+            saveToSharePreference()
         }
+
 
     internal fun setOnSearchClickListener(listener: OnSearchClickListener) {
         onSearchClickListener = listener
@@ -77,11 +82,24 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         super.onViewCreated(view, savedInstanceState)
         setListOfRegions()
         setEditTextOfPhusical()
-
         pickDate()
         lastnameEditText.addTextChangedListener(textWatcher)
         firstnameEditText.addTextChangedListener(textWatcher)
         searchButton.setOnClickListener(onSearchButtonClickListener)
+        readSharePreference()
+    }
+
+    private fun readSharePreference() {
+        val sharedPref = activity?.getSharedPreferences(
+                getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE) ?: return
+        val defaultValue = resources.getString(R.string.saved_default_key)
+        lastname_edit_text.setText(sharedPref.getString("lastname", defaultValue))
+        firstname_edit_text.setText(sharedPref.getString("firstname", defaultValue))
+        secondname_edit_text.setText(sharedPref.getString("secondname", defaultValue))
+        birthdate_edit_text.setText(sharedPref.getString("birthdate", defaultValue))
+        region_edit_text.setText(regionMap[sharedPref.getString("region", defaultValue)]?.
+            let { adapter.getItem(it.toInt() - 1).toString() }, false)
     }
 
     private fun setEditTextOfPhusical() {
@@ -103,7 +121,6 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
     private fun pickDate() {
         birthdate_edit_text.setOnClickListener {
             getDateCalendar()
-
             context?.let { it1 -> DatePickerDialog(it1, this, year, month, day).show() }
         }
     }
@@ -125,8 +142,22 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
 
     private fun setListOfRegions() {
         val regions = resources.getStringArray(R.array.regions)
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item_region, regions)
+        adapter = ArrayAdapter(requireContext(), R.layout.list_item_region, regions)
         (region_input_layout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    private fun saveToSharePreference() {
+        val sharedPref = activity?.getSharedPreferences(
+                getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE) ?: return
+        sharedPref.edit().apply {
+            putString("lastname", lastnameEditText.text.toString())
+            putString("firstname", firstnameEditText.text.toString())
+            putString("secondname", secondnameEditText.text.toString())
+            putString("birthdate", birthdateEditText.text.toString())
+            putString("region", regionEditText)
+            apply()
+        }
     }
 
     override fun onDestroyView() {
