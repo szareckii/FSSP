@@ -112,23 +112,23 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        savedDay = dayOfMonth.toString()
-        savedMonth = setMonth(month)
+        savedDay = setDayOrMonth(dayOfMonth)
+        savedMonth = setDayOrMonth(month)
         savedYear = year.toString()
         val dateBirthday = "$savedDay.$savedMonth.$savedYear"
         birthdate_input_layout.editText?.setText(dateBirthday)
     }
 
-    private fun setMonth(month: Int) =
-        if (month.toString().length == 1) {
-            "0$month"
+    private fun setDayOrMonth(number: Int) =
+        if (number.toString().length == 1) {
+            "0$number"
         } else {
-            month.toString()
+            number.toString()
         }
 
     private fun setListOfRegions() {
         val regions = resources.getStringArray(R.array.regions)
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, regions)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item_region, regions)
         (region_input_layout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 

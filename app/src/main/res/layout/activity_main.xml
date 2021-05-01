@@ -17,14 +17,13 @@
         android:contentDescription="@string/todo" />
 
     <LinearLayout
-        android:id="@+id/success_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/lastnameTextViewLabel"
@@ -122,27 +121,21 @@
                 android:textSize="@dimen/text_size_standard"
                 app:layout_constraintStart_toStartOf="@+id/birthdateTextView"
                 app:layout_constraintTop_toTopOf="@+id/regionTextViewLabel" />
-
-            <TextView
-                android:id="@+id/taskTextViewLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:text="@string/task"
-                android:textSize="@dimen/text_size_standard"
-                app:layout_constraintStart_toStartOf="@+id/regionTextViewLabel"
-                app:layout_constraintTop_toBottomOf="@+id/regionTextViewLabel" />
-
-            <TextView
-                android:id="@+id/taskTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="@string/task"
-                android:textSize="@dimen/text_size_standard"
-                app:layout_constraintStart_toStartOf="@+id/regionTextView"
-                app:layout_constraintTop_toTopOf="@+id/taskTextViewLabel" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/success_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_activity_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <FrameLayout
