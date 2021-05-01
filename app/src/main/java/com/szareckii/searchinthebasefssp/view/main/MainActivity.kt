@@ -3,6 +3,7 @@ package com.szareckii.searchinthebasefssp.view.main
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.szareckii.searchinthebasefssp.R
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.presenter.Presenter
@@ -12,6 +13,8 @@ import com.szareckii.searchinthebasefssp.view.base.View
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<AppState>() {
+
+    private var adapter: MainAdapter? = null
 
     lateinit var lastName : String
     lateinit var firstName : String
@@ -54,7 +57,7 @@ class MainActivity : BaseActivity<AppState>() {
                         firstname,
                         secondname,
                         birthdate,
-            true
+                true
                     )
                 }
             })
@@ -67,12 +70,17 @@ class MainActivity : BaseActivity<AppState>() {
         when (appState) {
             is AppState.Success -> {
                 val dataModel = appState.data
-                if (dataModel == null) {
+                if (dataModel?.responseResult?.resultList?.get(0)?.resultDetailList?.size == 0
+                        || dataModel == null) {
                     showErrorScreen(getString(R.string.empty_server_response_on_success))
                 } else {
                     showViewSuccess()
-                    taskTextView.text = dataModel.responseResult?.resultList?.
-                    get(0)?.resultDetailList?.get(0)?.details ?: "Пусто"
+                    if (adapter == null) {
+                        main_activity_recyclerview.layoutManager = LinearLayoutManager(applicationContext)
+                        main_activity_recyclerview.adapter = MainAdapter(dataModel)
+                    } else {
+                        adapter!!.setData(dataModel)
+                    }
                 }
             }
             is AppState.Loading -> {
@@ -104,7 +112,13 @@ class MainActivity : BaseActivity<AppState>() {
         showViewError()
         error_textview.text = error ?: getString(R.string.undefined_error)
         reload_button.setOnClickListener {
-            presenter.getDataPhysical("", "", "",null, "", true)
+            presenter.getDataPhysical(
+                    reg,
+                    lastName,
+                    firstName,
+                    secondName,
+                    birth,
+            true)
         }
     }
 
