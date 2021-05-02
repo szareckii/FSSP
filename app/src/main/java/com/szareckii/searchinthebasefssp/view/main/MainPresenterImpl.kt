@@ -12,12 +12,9 @@ import io.reactivex.observers.DisposableObserver
 import java.util.concurrent.TimeUnit
 
 class MainPresenterImpl<T : AppState, V : View>(
-    private val interactor: MainInteractor = MainInteractor(
-        RepositoryImplementation(DataSourceRemote()),
-        RepositoryImplementation(DataSourceLocal())
-    ),
-    protected val compositeDisposable: CompositeDisposable = CompositeDisposable(),
-    protected val schedulerProvider: SchedulerProvider = SchedulerProvider()
+    private val interactor: MainInteractor,
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable(),
+    private val schedulerProvider: SchedulerProvider = SchedulerProvider()
 ) : Presenter<T, V> {
     private var currentView: V? = null
 

@@ -16,4 +16,9 @@
     <string name="secondname">Отчество</string>
     <string name="birthdate">Дата рождения</string>
     <string name="regionLabel">Регион</string>
+    <string name="dialog_title_device_is_offline">Нет соединения с интернетом</string>
+    <string name="dialog_message_device_is_offline">Вы не можете испольховать приложения без соединения с интернетом.
+        Пожалуйста, проверьте соединение с интернетом</string>
+    <string name="dialog_button_cancel">Отмена</string>
+    <string name="dialog_title_stub">Неожиданная ошибка</string>
 </resources>

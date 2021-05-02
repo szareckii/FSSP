@@ -21,4 +21,10 @@
     <string name="todo" translatable="false">TODO</string>
     <string name="preference_file_key" translatable="false">settings</string>
     <string name="saved_default_key" translatable="false"> </string>
+    <string name="dialog_title_device_is_offline">No internet connection</string>
+    <string name="dialog_message_device_is_offline">You can not use app without internet connection. Please, check
+        internet connection.
+    </string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_title_stub">Undefined error</string>
 </resources>

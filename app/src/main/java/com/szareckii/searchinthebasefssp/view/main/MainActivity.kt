@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.szareckii.searchinthebasefssp.R
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.presenter.Presenter
+import com.szareckii.searchinthebasefssp.utils.network.isOnline
 import com.szareckii.searchinthebasefssp.utils.regionMapNumber
 import com.szareckii.searchinthebasefssp.view.base.BaseActivity
 import com.szareckii.searchinthebasefssp.view.base.View
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity<AppState>() {
 
@@ -23,47 +25,88 @@ class MainActivity : BaseActivity<AppState>() {
     lateinit var reg : String
 
     override fun createPresenter(): Presenter<AppState, View> {
-        return MainPresenterImpl()
+        val mainPresenterImpl: MainPresenterImpl<AppState, View> by inject()
+        return mainPresenterImpl
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fabListener()
+        search_fab.setOnClickListener(fabClickListener)
+//        fabListener()
     }
 
-    private fun fabListener() {
-        search_fab.setOnClickListener {
-            val searchDialogFragment = SearchDialogFragment.newInstance()
-            searchDialogFragment.setOnSearchClickListener(object : SearchDialogFragment.OnSearchClickListener {
+    private val fabClickListener: android.view.View.OnClickListener =
+            android.view.View.OnClickListener {
+                val searchDialogFragment = SearchDialogFragment.newInstance()
+                searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
+                searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+            }
+
+//    private fun fabListener() {
+//        search_fab.setOnClickListener {
+//            val searchDialogFragment = SearchDialogFragment.newInstance()
+//            searchDialogFragment.setOnSearchClickListener(object : SearchDialogFragment.OnSearchClickListener {
+//                override fun onClick(
+//                        region: String,
+//                        lastname: String,
+//                        firstname: String,
+//                        secondname: String,
+//                        birthdate: String
+//
+//                ) {
+//                    reg = region
+//                    lastName = lastname
+//                    firstName = firstname
+//                    secondName = secondname
+//                    birth = birthdate
+//
+//                    presenter.getDataPhysical(
+//                        region,
+//                        lastname,
+//                        firstname,
+//                        secondname,
+//                        birthdate,
+//                true
+//                    )
+//                }
+//            })
+//            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+//        }
+//    }
+
+    private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
+            object : SearchDialogFragment.OnSearchClickListener {
                 override fun onClick(
-                        region: String,
-                        lastname: String,
-                        firstname: String,
-                        secondname: String,
-                        birthdate: String
-
+                    region: String,
+                    lastname: String,
+                    firstname: String,
+                    secondname: String,
+                    birthdate: String
                 ) {
-                    reg = region
-                    lastName = lastname
-                    firstName = firstname
-                    secondName = secondname
-                    birth = birthdate
+                    isNetworkAvailable = isOnline(applicationContext)
+                    if (isNetworkAvailable) {
+                        reg = region
+                        lastName = lastname
+                        firstName = firstname
+                        secondName = secondname
+                        birth = birthdate
 
-                    presenter.getDataPhysical(
-                        region,
-                        lastname,
-                        firstname,
-                        secondname,
-                        birthdate,
-                true
-                    )
+                        presenter.getDataPhysical(
+                                region,
+                                lastname,
+                                firstname,
+                                secondname,
+                                birthdate,
+                                true
+                        )
+                    } else {
+                        showNoInternetConnectionDialog()
+                    }
                 }
-            })
-            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
-        }
-    }
+            }
+
 
     override fun renderData(appState: AppState) {
         renderPhysical()
