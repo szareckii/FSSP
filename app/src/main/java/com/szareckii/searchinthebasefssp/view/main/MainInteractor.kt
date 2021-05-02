@@ -9,7 +9,7 @@ import io.reactivex.Observable
 class MainInteractor(
     private val remoteRepository: Repository,
     private val localRepository: Repository
-    ) : Interactor{
+    ) : Interactor<AppState>{
 
     override fun getDataPhysical(
             region: String,

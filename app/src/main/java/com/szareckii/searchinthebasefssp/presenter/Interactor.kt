@@ -4,7 +4,7 @@ import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import io.reactivex.Observable
 
-interface Interactor {
+interface Interactor<T> {
 
     fun getDataPhysical(
         region: String,
@@ -17,5 +17,5 @@ interface Interactor {
 
     fun getDataResult(
         task: String,
-    ): Observable<AppState>
+    ): Observable<T>
 }
