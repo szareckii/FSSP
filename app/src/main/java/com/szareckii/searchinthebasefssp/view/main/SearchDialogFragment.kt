@@ -99,7 +99,7 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         secondname_edit_text.setText(sharedPref.getString("secondname", defaultValue))
         birthdate_edit_text.setText(sharedPref.getString("birthdate", defaultValue))
         region_edit_text.setText(regionMap[sharedPref.getString("region", defaultValue)]?.
-            let { adapter.getItem(it.toInt() - 1).toString() }, false)
+            let { adapter.getItem(it.toInt()-1).toString() }, false)
     }
 
     private fun setEditTextOfPhusical() {
@@ -127,7 +127,7 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         savedDay = setDayOrMonth(dayOfMonth)
-        savedMonth = setDayOrMonth(month)
+        savedMonth = setDayOrMonth(month + 1)
         savedYear = year.toString()
         val dateBirthday = "$savedDay.$savedMonth.$savedYear"
         birthdate_input_layout.editText?.setText(dateBirthday)
