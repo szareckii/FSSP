@@ -6,16 +6,14 @@ import io.reactivex.Observable
 
 interface Interactor<T> {
 
-    fun getDataPhysical(
+    suspend fun getDataPhysical(
         region: String,
         lastname: String,
         firstname: String,
         secondname: String?,
         birthdate: String?,
         fromRemoteSource: Boolean
-    ): Observable<DataModelPhysical>
+    ): DataModelPhysical
 
-    fun getDataResult(
-        task: String,
-    ): Observable<T>
+    suspend fun getDataResult(task: String): T
 }

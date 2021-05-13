@@ -1,7 +1,6 @@
 package com.szareckii.searchinthebasefssp.presenter
 
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
-import com.szareckii.searchinthebasefssp.view.base.View
 
 interface Presenter<T : AppState, V : View> {
 

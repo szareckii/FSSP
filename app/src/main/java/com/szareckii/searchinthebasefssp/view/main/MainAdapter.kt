@@ -10,10 +10,8 @@ import com.szareckii.searchinthebasefssp.model.data.result.ResultDetail
 import kotlinx.android.synthetic.main.activity_main_recyclerview_item.view.*
 
 class MainAdapter(private var data: DataModelResult) :
-//class MainAdapter() :
-        RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
 
-//    private var data: List<DataModelResult> = arrayListOf()
+    RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
 
     fun setData(data: DataModelResult) {
         this.data = data

@@ -3,20 +3,18 @@ package com.szareckii.searchinthebasefssp.view.main
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.szareckii.searchinthebasefssp.R
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
-import com.szareckii.searchinthebasefssp.presenter.Presenter
 import com.szareckii.searchinthebasefssp.utils.network.isOnline
 import com.szareckii.searchinthebasefssp.utils.regionMapNumber
 import com.szareckii.searchinthebasefssp.view.base.BaseActivity
-import com.szareckii.searchinthebasefssp.view.base.View
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity<AppState>() {
 
-    private var adapter: MainAdapter? = null
+    private val adapter: MainAdapter by lazy { MainAdapter() }
 
     lateinit var lastName : String
     lateinit var firstName : String
@@ -24,17 +22,21 @@ class MainActivity : BaseActivity<AppState>() {
     lateinit var birth : String
     lateinit var reg : String
 
-    override fun createPresenter(): Presenter<AppState, View> {
-        val mainPresenterImpl: MainPresenterImpl<AppState, View> by inject()
-        return mainPresenterImpl
-    }
+    override val model: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initViewModel()
 
         search_fab.setOnClickListener(fabClickListener)
-//        fabListener()
+    }
+
+    private fun initViewModel() {
+        if (main_activity_recyclerview.adapter != null) {
+            throw IllegalStateException(getString(R.string.viewmodel_is_null))
+        }
+        model.subscribe().observe(this@MainActivity, Observer<AppState> { renderData(it) })
     }
 
     private val fabClickListener: android.view.View.OnClickListener =
@@ -43,38 +45,6 @@ class MainActivity : BaseActivity<AppState>() {
                 searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
                 searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
             }
-
-//    private fun fabListener() {
-//        search_fab.setOnClickListener {
-//            val searchDialogFragment = SearchDialogFragment.newInstance()
-//            searchDialogFragment.setOnSearchClickListener(object : SearchDialogFragment.OnSearchClickListener {
-//                override fun onClick(
-//                        region: String,
-//                        lastname: String,
-//                        firstname: String,
-//                        secondname: String,
-//                        birthdate: String
-//
-//                ) {
-//                    reg = region
-//                    lastName = lastname
-//                    firstName = firstname
-//                    secondName = secondname
-//                    birth = birthdate
-//
-//                    presenter.getDataPhysical(
-//                        region,
-//                        lastname,
-//                        firstname,
-//                        secondname,
-//                        birthdate,
-//                true
-//                    )
-//                }
-//            })
-//            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
-//        }
-//    }
 
     private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
             object : SearchDialogFragment.OnSearchClickListener {

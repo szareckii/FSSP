@@ -1,12 +1,8 @@
 package com.szareckii.searchinthebasefssp.view.main
 
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
-import com.szareckii.searchinthebasefssp.model.datasource.DataSourceLocal
-import com.szareckii.searchinthebasefssp.model.datasource.DataSourceRemote
-import com.szareckii.searchinthebasefssp.model.repositiry.RepositoryImplementation
 import com.szareckii.searchinthebasefssp.presenter.Presenter
 import com.szareckii.searchinthebasefssp.rx.SchedulerProvider
-import com.szareckii.searchinthebasefssp.view.base.View
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import java.util.concurrent.TimeUnit

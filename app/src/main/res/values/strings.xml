@@ -27,4 +27,5 @@
     </string>
     <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_title_stub">Undefined error</string>
+    <string name="viewmodel_is_null" translatable="false">The ViewModel should be initialised first</string>
 </resources>
