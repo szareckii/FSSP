@@ -1,8 +1,18 @@
 package com.szareckii.searchinthebasefssp.viewmodel
 
-import io.reactivex.Observable
+import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
+
 
 interface Interactor<T> {
 
-    fun getData(word: String, fromRemoteSource: Boolean): Observable<T>
+    suspend fun getDataPhysical(
+        region: String,
+        lastname: String,
+        firstname: String,
+        secondname: String?,
+        birthdate: String?,
+        fromRemoteSource: Boolean
+    ): DataModelPhysical
+
+    suspend fun getDataResult(task: String): T
 }

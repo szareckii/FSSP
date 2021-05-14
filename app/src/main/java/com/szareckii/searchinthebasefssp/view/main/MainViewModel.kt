@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -12,13 +13,11 @@ class MainViewModel(private val interactor: MainInteractor) :
 
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
 
-    private var appState: AppState? = null
-
     fun subscribe(): LiveData<AppState> {
         return liveDataForViewToObserve
     }
 
-    override fun getDataPhysical(
+    override fun getData(
         region: String,
         lastname: String,
         firstname: String,
@@ -50,6 +49,8 @@ class MainViewModel(private val interactor: MainInteractor) :
         ) = withContext(Dispatchers.IO) {
 
         val task = interactor.getDataPhysical(region, lastname, firstname, secondname, birthdate, isOnline).responsePhysical?.task
+
+        delay(3000)
 
         _mutableLiveData.postValue(
 //            parseSearchResults(
