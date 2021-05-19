@@ -1,20 +1,19 @@
 package com.szareckii.searchinthebasefssp.model.repositiry
 
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
-import io.reactivex.Observable
+import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
 
-interface Repository {
+interface Repository<T> {
 
-    fun getData(
+    suspend fun getData(
         region: String,
         lastname: String,
         firstname: String,
         secondname: String? = null,
         birthdate: String? = null
-    ): Observable<DataModelPhysical>
+    ): DataModelPhysical
 
-    fun getResult(
-            task: String
-    ): Observable<DataModelResult>
+    suspend fun getStatus(task: String): DataModelStatus
+
+    suspend fun getResult(task: String): T
 }

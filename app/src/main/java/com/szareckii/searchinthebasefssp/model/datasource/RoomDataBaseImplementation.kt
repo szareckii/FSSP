@@ -2,21 +2,25 @@ package com.szareckii.searchinthebasefssp.model.datasource
 
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
 import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
-import io.reactivex.Observable
+import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
 
 class RoomDataBaseImplementation : DataSource {
 
-    override fun getDataPhysical(
+    override suspend fun getDataPhysical(
             region: String,
             lastname: String,
             firstname: String,
             secondname: String?,
             birthdate: String?
-    ): Observable<DataModelPhysical> {
+    ): DataModelPhysical {
         TODO("not implemented")
     }
 
-    override fun getDataResult(task: String): Observable<DataModelResult> {
+    override suspend fun getDataStatus(task: String): DataModelStatus {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getDataResult(task: String): DataModelResult {
         TODO("not implemented")
     }
 }

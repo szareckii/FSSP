@@ -1,10 +1,10 @@
 package com.szareckii.searchinthebasefssp.model.datasource
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.szareckii.searchinthebasefssp.BuildConfig
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
 import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
-import io.reactivex.Observable
+import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,20 +12,26 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitImplementation : DataSource {
 
-    override fun getDataPhysical(
+    override suspend fun getDataPhysical(
             region: String,
             lastname: String,
             firstname: String,
             secondname: String?,
             birthdate: String?
-    ): Observable<DataModelPhysical> {
-        return getService().searchPhysical(BuildConfig.FSSP_API_KEY, region, lastname, firstname, secondname, birthdate)
+    ): DataModelPhysical {
+        return getService().searchPhysical(BuildConfig.FSSP_API_KEY, region, lastname, firstname, secondname, birthdate).await()
     }
 
-     override fun getDataResult(
+    override suspend fun getDataStatus(
+        task: String
+    ): DataModelStatus {
+        return getService().getStatus(BuildConfig.FSSP_API_KEY, task).await()
+    }
+
+    override suspend fun getDataResult(
              task: String
-     ): Observable<DataModelResult> {
-        return getService().getResult(BuildConfig.FSSP_API_KEY, task)
+     ): DataModelResult {
+        return getService().getResult(BuildConfig.FSSP_API_KEY, task).await()
     }
 
     private fun getService(): ApiService {
@@ -36,7 +42,7 @@ class RetrofitImplementation : DataSource {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_LOCATIONS)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(createOkHttpClient())
             .build()
     }

@@ -2,45 +2,42 @@ package com.szareckii.searchinthebasefssp.view.main
 
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
+import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
+import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
 import com.szareckii.searchinthebasefssp.model.repositiry.Repository
-import com.szareckii.searchinthebasefssp.presenter.Interactor
-import io.reactivex.Observable
+import com.szareckii.searchinthebasefssp.viewmodel.Interactor
 
 class MainInteractor(
-    private val remoteRepository: Repository,
-    private val localRepository: Repository
-    ) : Interactor<AppState>{
+    private val remoteRepository: Repository<DataModelResult>,
+    private val localRepository: Repository<DataModelResult>
+    ) : Interactor<AppState> {
 
-    override fun getDataPhysical(
+    override suspend fun getDataPhysical(
             region: String,
             lastname: String,
             firstname: String,
             secondname: String?,
             birthdate: String?,
             fromRemoteSource: Boolean
-    ): Observable<DataModelPhysical> {
+    ): DataModelPhysical {
         return if (fromRemoteSource) {
-            remoteRepository.getData(
-                region,
-                lastname,
-                firstname,
-                secondname,
-                birthdate
-            )
+            remoteRepository
         } else {
-            localRepository.getData(
-                region,
-                lastname,
-                firstname,
-                secondname,
-                birthdate
-            )
-        }
+            localRepository
+        }.getData(
+            region,
+            lastname,
+            firstname,
+            secondname,
+            birthdate
+        )
     }
 
-    override fun getDataResult(task: String): Observable<AppState> {
-        return remoteRepository.getResult(task).map {
-            AppState.Success(it)
-        }
+    override suspend fun getDataStatus(task: String): DataModelStatus {
+           return remoteRepository.getStatus(task)
+    }
+
+    override suspend fun getDataResult(task: String): AppState {
+        return AppState.Success(remoteRepository.getResult(task))
     }
 }

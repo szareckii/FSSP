@@ -3,20 +3,19 @@ package com.szareckii.searchinthebasefssp.view.main
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.szareckii.searchinthebasefssp.R
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
-import com.szareckii.searchinthebasefssp.presenter.Presenter
 import com.szareckii.searchinthebasefssp.utils.network.isOnline
 import com.szareckii.searchinthebasefssp.utils.regionMapNumber
 import com.szareckii.searchinthebasefssp.view.base.BaseActivity
-import com.szareckii.searchinthebasefssp.view.base.View
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState>() {
 
-    private var adapter: MainAdapter? = null
+    private val adapter: MainAdapter by lazy { MainAdapter() }
 
     lateinit var lastName : String
     lateinit var firstName : String
@@ -24,17 +23,27 @@ class MainActivity : BaseActivity<AppState>() {
     lateinit var birth : String
     lateinit var reg : String
 
-    override fun createPresenter(): Presenter<AppState, View> {
-        val mainPresenterImpl: MainPresenterImpl<AppState, View> by inject()
-        return mainPresenterImpl
-    }
+    override val model: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        initViewModel()
+        initViews()
         search_fab.setOnClickListener(fabClickListener)
-//        fabListener()
+    }
+
+    private fun initViewModel() {
+        if (main_activity_recyclerview.adapter != null) {
+            throw IllegalStateException(getString(R.string.viewmodel_is_null))
+        }
+        model.subscribe().observe(this@MainActivity, { renderData(it) })
+    }
+
+    private fun initViews() {
+        search_fab.setOnClickListener(fabClickListener)
+        main_activity_recyclerview.layoutManager = LinearLayoutManager(applicationContext)
+        main_activity_recyclerview.adapter = adapter
     }
 
     private val fabClickListener: android.view.View.OnClickListener =
@@ -43,38 +52,6 @@ class MainActivity : BaseActivity<AppState>() {
                 searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
                 searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
             }
-
-//    private fun fabListener() {
-//        search_fab.setOnClickListener {
-//            val searchDialogFragment = SearchDialogFragment.newInstance()
-//            searchDialogFragment.setOnSearchClickListener(object : SearchDialogFragment.OnSearchClickListener {
-//                override fun onClick(
-//                        region: String,
-//                        lastname: String,
-//                        firstname: String,
-//                        secondname: String,
-//                        birthdate: String
-//
-//                ) {
-//                    reg = region
-//                    lastName = lastname
-//                    firstName = firstname
-//                    secondName = secondname
-//                    birth = birthdate
-//
-//                    presenter.getDataPhysical(
-//                        region,
-//                        lastname,
-//                        firstname,
-//                        secondname,
-//                        birthdate,
-//                true
-//                    )
-//                }
-//            })
-//            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
-//        }
-//    }
 
     private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
             object : SearchDialogFragment.OnSearchClickListener {
@@ -86,6 +63,7 @@ class MainActivity : BaseActivity<AppState>() {
                     birthdate: String
                 ) {
                     isNetworkAvailable = isOnline(applicationContext)
+
                     if (isNetworkAvailable) {
                         reg = region
                         lastName = lastname
@@ -93,13 +71,12 @@ class MainActivity : BaseActivity<AppState>() {
                         secondName = secondname
                         birth = birthdate
 
-                        presenter.getDataPhysical(
-                                region,
+                        model.getData(region,
                                 lastname,
                                 firstname,
                                 secondname,
                                 birthdate,
-                                true
+                                isNetworkAvailable
                         )
                     } else {
                         showNoInternetConnectionDialog()
@@ -112,18 +89,18 @@ class MainActivity : BaseActivity<AppState>() {
         renderPhysical()
         when (appState) {
             is AppState.Success -> {
+                showViewWorking()
                 val dataModel = appState.data
                 if (dataModel?.responseResult?.resultList?.get(0)?.resultDetailList?.size == 0
                         || dataModel == null) {
-                    showErrorScreen(getString(R.string.empty_server_response_on_success))
+
+                    showAlertDialog(
+                        getString(R.string.dialog_tittle_sorry),
+                        getString(R.string.empty_server_response_on_success)
+                    )
+
                 } else {
-                    showViewSuccess()
-                    if (adapter == null) {
-                        main_activity_recyclerview.layoutManager = LinearLayoutManager(applicationContext)
-                        main_activity_recyclerview.adapter = MainAdapter(dataModel)
-                    } else {
-                        adapter!!.setData(dataModel)
-                    }
+                    adapter.setData(dataModel)
                 }
             }
             is AppState.Loading -> {
@@ -138,7 +115,8 @@ class MainActivity : BaseActivity<AppState>() {
                 }
             }
             is AppState.Error -> {
-                showErrorScreen(appState.error.message)
+                showViewWorking()
+                showAlertDialog(getString(R.string.error_textview_stub), appState.error.message)
             }
         }
     }
@@ -151,36 +129,12 @@ class MainActivity : BaseActivity<AppState>() {
         regionTextView.text = regionMapNumber[reg]
     }
 
-    private fun showErrorScreen(error: String?) {
-        showViewError()
-        error_textview.text = error ?: getString(R.string.undefined_error)
-        reload_button.setOnClickListener {
-            presenter.getDataPhysical(
-                    reg,
-                    lastName,
-                    firstName,
-                    secondName,
-                    birth,
-            true)
-        }
-    }
-
-    private fun showViewSuccess() {
-        success_linear_layout.visibility = VISIBLE
+    private fun showViewWorking() {
         loading_frame_layout.visibility = GONE
-        error_linear_layout.visibility = GONE
     }
 
     private fun showViewLoading() {
-        success_linear_layout.visibility = GONE
         loading_frame_layout.visibility = VISIBLE
-        error_linear_layout.visibility = GONE
-    }
-
-    private fun showViewError() {
-        success_linear_layout.visibility = GONE
-        loading_frame_layout.visibility = GONE
-        error_linear_layout.visibility = VISIBLE
     }
 
     companion object {

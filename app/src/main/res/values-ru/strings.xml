@@ -21,4 +21,5 @@
         Пожалуйста, проверьте соединение с интернетом</string>
     <string name="dialog_button_cancel">Отмена</string>
     <string name="dialog_title_stub">Неожиданная ошибка</string>
+    <string name="dialog_tittle_sorry">Извините</string>
 </resources>

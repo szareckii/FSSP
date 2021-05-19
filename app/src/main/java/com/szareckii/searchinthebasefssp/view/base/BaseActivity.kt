@@ -5,15 +5,15 @@ import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import com.szareckii.searchinthebasefssp.R
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
-import com.szareckii.searchinthebasefssp.presenter.Presenter
 import com.szareckii.searchinthebasefssp.utils.network.isOnline
 import com.szareckii.searchinthebasefssp.utils.ui.AlertDialogFragment
+import com.szareckii.searchinthebasefssp.viewmodel.BaseViewModel
 
-abstract class BaseActivity<T : AppState> : AppCompatActivity(), View  {
+abstract class BaseActivity<T : AppState> : AppCompatActivity() {
 
-    protected lateinit var presenter: Presenter<T, View>
+    abstract val model: BaseViewModel<T>
 
-    protected abstract fun createPresenter(): Presenter<T, View>
+    abstract fun renderData(appState: AppState)
 
     protected var isNetworkAvailable: Boolean = false
 
@@ -43,24 +43,6 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity(), View  {
 
     private fun isDialogNull(): Boolean {
         return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
-    }
-
-
-    abstract override fun renderData(appState: AppState)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter = createPresenter()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.attachView(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.detachView(this)
     }
 
     companion object {
