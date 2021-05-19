@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.szareckii.searchinthebasefssp.BuildConfig
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
 import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
+import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -21,7 +22,13 @@ class RetrofitImplementation : DataSource {
         return getService().searchPhysical(BuildConfig.FSSP_API_KEY, region, lastname, firstname, secondname, birthdate).await()
     }
 
-     override suspend fun getDataResult(
+    override suspend fun getDataStatus(
+        task: String
+    ): DataModelStatus {
+        return getService().getStatus(BuildConfig.FSSP_API_KEY, task).await()
+    }
+
+    override suspend fun getDataResult(
              task: String
      ): DataModelResult {
         return getService().getResult(BuildConfig.FSSP_API_KEY, task).await()

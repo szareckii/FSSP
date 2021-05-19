@@ -37,7 +37,7 @@ class MainActivity : BaseActivity<AppState>() {
         if (main_activity_recyclerview.adapter != null) {
             throw IllegalStateException(getString(R.string.viewmodel_is_null))
         }
-        model.subscribe().observe(this@MainActivity, Observer<AppState> { renderData(it) })
+        model.subscribe().observe(this@MainActivity, { renderData(it) })
     }
 
     private fun initViews() {
@@ -78,20 +78,6 @@ class MainActivity : BaseActivity<AppState>() {
                                 birthdate,
                                 isNetworkAvailable
                         )
-//                        reg = region
-//                        lastName = lastname
-//                        firstName = firstname
-//                        secondName = secondname
-//                        birth = birthdate
-//
-//                        presenter.getDataPhysical(
-//                                region,
-//                                lastname,
-//                                firstname,
-//                                secondname,
-//                                birthdate,
-//                                true
-//                        )
                     } else {
                         showNoInternetConnectionDialog()
                     }
@@ -113,15 +99,8 @@ class MainActivity : BaseActivity<AppState>() {
                         getString(R.string.empty_server_response_on_success)
                     )
 
-//                    showErrorScreen(getString(R.string.empty_server_response_on_success))
                 } else {
-//                    showViewSuccess()
-//                    if (adapter == null) {
-//                        main_activity_recyclerview.layoutManager = LinearLayoutManager(applicationContext)
-//                        main_activity_recyclerview.adapter = MainAdapter(dataModel)
-//                    } else {
-                        adapter!!.setData(dataModel)
-//                    }
+                    adapter.setData(dataModel)
                 }
             }
             is AppState.Loading -> {
@@ -136,7 +115,6 @@ class MainActivity : BaseActivity<AppState>() {
                 }
             }
             is AppState.Error -> {
-//                showErrorScreen(appState.error.message)
                 showViewWorking()
                 showAlertDialog(getString(R.string.error_textview_stub), appState.error.message)
             }
@@ -151,20 +129,6 @@ class MainActivity : BaseActivity<AppState>() {
         regionTextView.text = regionMapNumber[reg]
     }
 
-//    private fun showErrorScreen(error: String?) {
-//        showViewError()
-//        error_textview.text = error ?: getString(R.string.undefined_error)
-//        reload_button.setOnClickListener {
-//            presenter.getDataPhysical(
-//                    reg,
-//                    lastName,
-//                    firstName,
-//                    secondName,
-//                    birth,
-//            true)
-//        }
-//    }
-
     private fun showViewWorking() {
         loading_frame_layout.visibility = GONE
     }
@@ -172,24 +136,6 @@ class MainActivity : BaseActivity<AppState>() {
     private fun showViewLoading() {
         loading_frame_layout.visibility = VISIBLE
     }
-
-//    private fun showViewSuccess() {
-//        success_linear_layout.visibility = VISIBLE
-//        loading_frame_layout.visibility = GONE
-//        error_linear_layout.visibility = GONE
-//    }
-//
-//    private fun showViewLoading() {
-//        success_linear_layout.visibility = GONE
-//        loading_frame_layout.visibility = VISIBLE
-//        error_linear_layout.visibility = GONE
-//    }
-//
-//    private fun showViewError() {
-//        success_linear_layout.visibility = GONE
-//        loading_frame_layout.visibility = GONE
-//        error_linear_layout.visibility = VISIBLE
-//    }
 
     companion object {
         private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "com.szareckii.searchinthebasefssp.searchdialogfragment"

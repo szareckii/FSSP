@@ -3,6 +3,7 @@ package com.szareckii.searchinthebasefssp.view.main
 import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
 import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
+import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
 import com.szareckii.searchinthebasefssp.model.repositiry.Repository
 import com.szareckii.searchinthebasefssp.viewmodel.Interactor
 
@@ -30,6 +31,10 @@ class MainInteractor(
             secondname,
             birthdate
         )
+    }
+
+    override suspend fun getDataStatus(task: String): DataModelStatus {
+           return remoteRepository.getStatus(task)
     }
 
     override suspend fun getDataResult(task: String): AppState {
