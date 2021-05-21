@@ -5,11 +5,18 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(indices = arrayOf(Index(value = arrayOf("word"), unique = true)))
+@Entity(indices = arrayOf(Index(value = arrayOf("id"), unique = true)))
 class HistoryEntity(
-    @field:PrimaryKey
-    @field:ColumnInfo(name = "word")
-    var word: String,
-    @field:ColumnInfo(name = "description")
-    var description: String?
+    @field:PrimaryKey(autoGenerate = true)
+    val id : Int = 0,
+    @field:ColumnInfo(name = "region")
+    val region: String,
+    @field:ColumnInfo(name = "lastname")
+    val lastname: String,
+    @field:ColumnInfo(name = "firstname")
+    val firstname: String,
+    @field:ColumnInfo(name = "secondname")
+    val secondname: String?,
+    @field:ColumnInfo(name = "birthdate")
+    val birthdate: String?
 )
