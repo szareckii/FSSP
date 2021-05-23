@@ -9,6 +9,8 @@ import com.szareckii.searchinthebasefssp.model.repositiry.RepositoryImplementati
 import com.szareckii.searchinthebasefssp.model.repositiry.RepositoryImplementationLocal
 import com.szareckii.searchinthebasefssp.model.repositiry.RepositoryLocal
 import com.szareckii.searchinthebasefssp.room.HistoryDataBase
+import com.szareckii.searchinthebasefssp.view.history.HistoryInteractor
+import com.szareckii.searchinthebasefssp.view.history.HistoryViewModel
 import com.szareckii.searchinthebasefssp.view.main.MainInteractor
 import com.szareckii.searchinthebasefssp.view.main.MainViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -21,7 +23,7 @@ val application = module {
         RepositoryImplementation(RetrofitImplementation())
     }
 
-    single<RepositoryLocal<DataModelResult>> {
+    single<RepositoryLocal> {
         RepositoryImplementationLocal( RoomDataBaseImplementation(get()))
     }
 
@@ -36,3 +38,7 @@ val mainScreen = module {
     viewModel { MainViewModel(get()) }
 }
 
+val historyScreen = module {
+    factory { HistoryInteractor(get()) }
+    viewModel { HistoryViewModel(get()) }
+}

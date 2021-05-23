@@ -1,12 +1,11 @@
 package com.szareckii.searchinthebasefssp.model.datasource
 
-import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.room.HistoryEntity
+import com.szareckii.searchinthebasefssp.room.StateHistoryEntity
 
 interface DataSourceLocal {
 
-//    suspend fun getHistoryEntityData(dataModelPhysical : DataModelPhysical): HistoryEntity?
+    suspend fun getHistoryEntityData(): List<HistoryEntity>?
 
     suspend fun saveToDB(
          region: String,

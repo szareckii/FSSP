@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface HistoryDao {
-    @Query("SELECT * FROM HistoryEntity")
+    @Query("SELECT * FROM HistoryEntity order by id DESC LIMIT 10")
     suspend fun all(): List<HistoryEntity>
     @Query("SELECT * FROM HistoryEntity WHERE id  =  :id LIMIT 1")
     suspend fun getDataById(id: Int): HistoryEntity

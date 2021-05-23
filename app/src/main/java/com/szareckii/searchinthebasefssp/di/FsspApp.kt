@@ -10,7 +10,7 @@ class FsspApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(applicationContext)
-            modules(listOf(application, mainScreen))
+            modules(listOf(application, mainScreen, historyScreen))
         }
     }
 }

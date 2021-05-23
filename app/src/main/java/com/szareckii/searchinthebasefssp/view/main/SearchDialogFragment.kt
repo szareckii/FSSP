@@ -2,7 +2,9 @@ package com.szareckii.searchinthebasefssp.view.main
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.StructuredPostal.REGION
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -167,11 +169,11 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
 
     interface OnSearchClickListener {
         fun onClick(
-                region: String,
-                lastname: String,
-                firstname: String,
-                secondname: String,
-                birthdate: String,
+            region: String,
+            lastname: String,
+            firstname: String,
+            secondname: String,
+            birthdate: String,
         )
     }
 

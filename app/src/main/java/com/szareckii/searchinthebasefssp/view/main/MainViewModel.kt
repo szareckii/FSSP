@@ -1,19 +1,19 @@
 package com.szareckii.searchinthebasefssp.view.main
 
 import androidx.lifecycle.LiveData
-import com.szareckii.searchinthebasefssp.model.data.result.AppState
+import com.szareckii.searchinthebasefssp.model.data.result.AppStateResult
 import com.szareckii.searchinthebasefssp.viewmodel.BaseViewModel
 import kotlinx.coroutines.*
 
 class MainViewModel(private val interactor: MainInteractor) :
-    BaseViewModel<AppState>() {
+    BaseViewModel<AppStateResult>() {
 
     companion object {
         //через сколько проверять результат запроса
         private const val TIME_REQUEST_REPEAT: Long = 5000
     }
 
-    private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
+    private val liveDataForViewToObserve: LiveData<AppStateResult> = _mutableLiveData
 
     private var task: String? = null
 
@@ -21,11 +21,11 @@ class MainViewModel(private val interactor: MainInteractor) :
     // 2 - запрос в обработке. 0 - выполнено.
     private var statusRequest: Int? = 2
 
-    fun subscribe(): LiveData<AppState> {
+    fun subscribe(): LiveData<AppStateResult> {
         return liveDataForViewToObserve
     }
 
-    override fun getData(
+    fun getData(
         region: String,
         lastname: String,
         firstname: String,
@@ -33,7 +33,7 @@ class MainViewModel(private val interactor: MainInteractor) :
         birthdate: String?,
         isOnline: Boolean
     ) {
-        _mutableLiveData.value = AppState.Loading(null)
+        _mutableLiveData.value = AppStateResult.Loading(null)
         cancelJob()
         val taskCoroutine =  viewModelCoroutineScope.async {
             startInteractorPhysical(
@@ -82,11 +82,11 @@ class MainViewModel(private val interactor: MainInteractor) :
     }
 
     override fun handleError(error: Throwable) {
-        _mutableLiveData.postValue(AppState.Error(error))
+        _mutableLiveData.postValue(AppStateResult.Error(error))
     }
 
     override fun onCleared() {
-        _mutableLiveData.value = AppState.Success(null)
+        _mutableLiveData.value = AppStateResult.Success(null)
         super.onCleared()
     }
 }

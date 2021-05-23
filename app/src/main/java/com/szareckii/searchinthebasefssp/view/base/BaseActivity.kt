@@ -2,18 +2,17 @@ package com.szareckii.searchinthebasefssp.view.base
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.szareckii.searchinthebasefssp.R
-import com.szareckii.searchinthebasefssp.model.data.result.AppState
 import com.szareckii.searchinthebasefssp.utils.network.isOnline
 import com.szareckii.searchinthebasefssp.utils.ui.AlertDialogFragment
 import com.szareckii.searchinthebasefssp.viewmodel.BaseViewModel
+import kotlinx.android.synthetic.main.loading_layout.loading_frame_layout
 
-abstract class BaseActivity<T : AppState> : AppCompatActivity() {
+abstract class BaseActivity<T> : AppCompatActivity() {
 
     abstract val model: BaseViewModel<T>
-
-    abstract fun renderData(appState: AppState)
 
     protected var isNetworkAvailable: Boolean = false
 
