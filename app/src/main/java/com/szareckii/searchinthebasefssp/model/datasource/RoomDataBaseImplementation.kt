@@ -1,26 +1,23 @@
 package com.szareckii.searchinthebasefssp.model.datasource
 
-import com.szareckii.searchinthebasefssp.model.data.physical.DataModelPhysical
-import com.szareckii.searchinthebasefssp.model.data.result.DataModelResult
-import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
+import com.szareckii.searchinthebasefssp.room.HistoryDao
+import com.szareckii.searchinthebasefssp.room.HistoryEntity
 
-class RoomDataBaseImplementation : DataSource {
+class RoomDataBaseImplementation(private val historyDao: HistoryDao) : DataSourceLocal {
 
-    override suspend fun getDataPhysical(
-            region: String,
-            lastname: String,
-            firstname: String,
-            secondname: String?,
-            birthdate: String?
-    ): DataModelPhysical {
-        TODO("not implemented")
+    override suspend fun getHistoryEntityData(): List<HistoryEntity>? {
+        return historyDao.all()
     }
 
-    override suspend fun getDataStatus(task: String): DataModelStatus {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getDataResult(task: String): DataModelResult {
-        TODO("not implemented")
+    override suspend fun saveToDB(
+        region: String,
+        lastname: String,
+        firstname: String,
+        secondname: String?,
+        birthdate: String?
+    ) {
+        historyDao.insert(
+            HistoryEntity(0, region, lastname, firstname, secondname, birthdate)
+        )
     }
 }

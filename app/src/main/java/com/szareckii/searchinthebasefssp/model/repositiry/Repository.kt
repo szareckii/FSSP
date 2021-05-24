@@ -5,7 +5,7 @@ import com.szareckii.searchinthebasefssp.model.data.status.DataModelStatus
 
 interface Repository<T> {
 
-    suspend fun getData(
+    suspend fun getDataPhysical(
         region: String,
         lastname: String,
         firstname: String,

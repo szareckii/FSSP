@@ -8,7 +8,7 @@ import com.szareckii.searchinthebasefssp.model.datasource.DataSource
 class RepositoryImplementation(private val dataSource: DataSource) :
         Repository<DataModelResult> {
 
-    override suspend fun getData(
+    override suspend fun getDataPhysical(
             region: String,
             lastname: String,
             firstname: String,

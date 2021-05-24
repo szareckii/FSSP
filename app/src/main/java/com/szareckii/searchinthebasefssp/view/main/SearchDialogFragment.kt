@@ -2,7 +2,9 @@ package com.szareckii.searchinthebasefssp.view.main
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.StructuredPostal.REGION
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -55,11 +57,11 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         View.OnClickListener {
             regionEditText = region_edit_text.text.toString()
             onSearchClickListener?.onClick(
-             regionMap[regionEditText] ?: "10",
-                    lastnameEditText.text.toString(),
-                    firstnameEditText.text.toString(),
-                    secondnameEditText.text.toString(),
-                    birthdateEditText.text.toString(),
+                regionEditText,
+                lastnameEditText.text.toString(),
+                firstnameEditText.text.toString(),
+                secondnameEditText.text.toString(),
+                birthdateEditText.text.toString(),
             )
             dismiss()
             saveToSharePreference()
@@ -167,11 +169,11 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
 
     interface OnSearchClickListener {
         fun onClick(
-                region: String,
-                lastname: String,
-                firstname: String,
-                secondname: String,
-                birthdate: String,
+            region: String,
+            lastname: String,
+            firstname: String,
+            secondname: String,
+            birthdate: String,
         )
     }
 
