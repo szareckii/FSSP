@@ -41,32 +41,36 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
     var savedMonth = ""
     var savedYear = ""
 
-    private val textWatcher = object : TextWatcher {
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            searchButton.isEnabled = lastnameEditText.text != null && !lastnameEditText.text.toString().isEmpty() &&
-                    firstnameEditText.text != null && !firstnameEditText.text.toString().isEmpty()
-        }
-
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-        override fun afterTextChanged(s: Editable) {}
-    }
+//    private val textWatcher = object : TextWatcher {
+//
+//        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//            searchButton.isEnabled = lastnameEditText.text != null && !lastnameEditText.text.toString().isEmpty() &&
+//                    firstnameEditText.text != null && !firstnameEditText.text.toString().isEmpty()
+//        }
+//
+//        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+//
+//        override fun afterTextChanged(s: Editable) {}
+//    }
 
     private val onSearchButtonClickListener =
         View.OnClickListener {
-            regionEditText = region_edit_text.text.toString()
-            onSearchClickListener?.onClick(
-                regionEditText,
-                lastnameEditText.text.toString(),
-                firstnameEditText.text.toString(),
-                secondnameEditText.text.toString(),
-                birthdateEditText.text.toString(),
-            )
-            dismiss()
-            saveToSharePreference()
-        }
 
+            lastname_input_layout.error =  getString(R.string.error_lastname)
+            firstname_input_layout.error =  getString(R.string.error_firstname)
+            region_input_layout.error =  getString(R.string.error_region)
+
+//            regionEditText = region_edit_text.text.toString()
+//            onSearchClickListener?.onClick(
+//                regionEditText,
+//                lastnameEditText.text.toString().capitalize(Locale.ROOT),
+//                firstnameEditText.text.toString().capitalize(Locale.ROOT),
+//                secondnameEditText.text.toString().capitalize(Locale.ROOT),
+//                birthdateEditText.text.toString(),
+//            )
+//            dismiss()
+//            saveToSharePreference()
+        }
 
     internal fun setOnSearchClickListener(listener: OnSearchClickListener) {
         onSearchClickListener = listener
@@ -85,8 +89,8 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         setListOfRegions()
         setEditTextOfPhusical()
         pickDate()
-        lastnameEditText.addTextChangedListener(textWatcher)
-        firstnameEditText.addTextChangedListener(textWatcher)
+//        lastnameEditText.addTextChangedListener(textWatcher)
+//        firstnameEditText.addTextChangedListener(textWatcher)
         searchButton.setOnClickListener(onSearchButtonClickListener)
         readSharePreference()
     }
@@ -106,7 +110,7 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
 
     private fun setEditTextOfPhusical() {
         searchButton = search_button_textview
-        searchButton.isEnabled = false
+//        searchButton.isEnabled = false
         lastnameEditText = lastname_edit_text
         firstnameEditText = firstname_edit_text
         secondnameEditText = secondname_edit_text
@@ -153,9 +157,9 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
                 getString(R.string.preference_file_key),
                 Context.MODE_PRIVATE) ?: return
         sharedPref.edit().apply {
-            putString("lastname", lastnameEditText.text.toString())
-            putString("firstname", firstnameEditText.text.toString())
-            putString("secondname", secondnameEditText.text.toString())
+            putString("lastname", lastnameEditText.text.toString().capitalize(Locale.ROOT))
+            putString("firstname", firstnameEditText.text.toString().capitalize(Locale.ROOT))
+            putString("secondname", secondnameEditText.text.toString().capitalize(Locale.ROOT))
             putString("birthdate", birthdateEditText.text.toString())
             putString("region", regionEditText)
             apply()

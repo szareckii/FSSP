@@ -40,12 +40,12 @@
                 android:id="@+id/lastnameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/lastname"
                 android:textSize="@dimen/text_size_standard"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.182"
+                app:layout_constraintHorizontal_bias="0.21"
                 app:layout_constraintStart_toEndOf="@+id/lastnameTextViewLabel"
-                app:layout_constraintTop_toTopOf="@+id/lastnameTextViewLabel" />
+                app:layout_constraintTop_toTopOf="@+id/lastnameTextViewLabel"
+                tools:text="@string/lastname" />
 
             <TextView
                 android:id="@+id/firstnameTextViewLabel"

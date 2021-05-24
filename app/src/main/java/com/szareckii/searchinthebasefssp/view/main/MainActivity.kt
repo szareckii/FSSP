@@ -118,7 +118,6 @@ class MainActivity : BaseActivity<AppStateResult>() {
         firstnameTextView.text = firstName
         secondnameTextView.text = secondName
         birthdateTextView.text = birth
-//        regionTextView.text = regionMapNumber[reg]
         regionTextView.text = reg
     }
 
@@ -158,10 +157,12 @@ class MainActivity : BaseActivity<AppStateResult>() {
     }
 
     private fun showViewWorking() {
+        main_activity_recyclerview.visibility = VISIBLE
         loading_frame_layout.visibility = GONE
     }
 
     private fun showViewLoading() {
+        main_activity_recyclerview.visibility = GONE
         loading_frame_layout.visibility = VISIBLE
     }
 
