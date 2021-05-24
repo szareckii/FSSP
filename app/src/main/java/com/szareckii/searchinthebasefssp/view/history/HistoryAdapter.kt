@@ -1,5 +1,6 @@
 package com.szareckii.searchinthebasefssp.view.history
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -51,13 +52,17 @@ class HistoryAdapter(private var onListItemClickListener: OnListItemClickListene
                 }
                 itemView.region_history_textview_recycler_item.text = regionMapNumber[data.region]
 
-                itemView.setOnClickListener { openInNewWindow(data) }
+                itemView.setOnClickListener {
+                    Log.e("11111111111111111", "setOnClickListener")
+                    openInNewWindow(data)
+                }
             }
         }
     }
 
     private fun openInNewWindow(listItemData: HistoryEntity) {
         onListItemClickListener.onItemClick(listItemData)
+        Log.e("11111111111111111", "openInNewWindow")
     }
 
     interface OnListItemClickListener {

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.szareckii.searchinthebasefssp.R
 import com.szareckii.searchinthebasefssp.model.data.result.AppStateResult
 import com.szareckii.searchinthebasefssp.utils.network.isOnline
+import com.szareckii.searchinthebasefssp.utils.regionMap
 import com.szareckii.searchinthebasefssp.utils.regionMapNumber
 import com.szareckii.searchinthebasefssp.view.base.BaseActivity
 import com.szareckii.searchinthebasefssp.view.history.HistoryActivity
@@ -81,14 +82,16 @@ class MainActivity : BaseActivity<AppStateResult>() {
                     secondName = secondname
                     birth = birthdate
 
-                    model.getData(
-                        region,
-                        lastname,
-                        firstname,
-                        secondname,
-                        birthdate,
-                        isNetworkAvailable
-                    )
+                    regionMap[reg]?.let {
+                        model.getData(
+                            it,
+                            lastname,
+                            firstname,
+                            secondname,
+                            birthdate,
+                            isNetworkAvailable
+                        )
+                    }
                 } else {
                     showNoInternetConnectionDialog()
                 }
@@ -115,7 +118,8 @@ class MainActivity : BaseActivity<AppStateResult>() {
         firstnameTextView.text = firstName
         secondnameTextView.text = secondName
         birthdateTextView.text = birth
-        regionTextView.text = regionMapNumber[reg]
+//        regionTextView.text = regionMapNumber[reg]
+        regionTextView.text = reg
     }
 
     fun renderData(appStateResult: AppStateResult) {
@@ -177,14 +181,16 @@ class MainActivity : BaseActivity<AppStateResult>() {
             secondnameTextView.text = secondName
             birthdateTextView.text = birth
 
-            model.getData(
-                reg,
-                lastName,
-                firstName,
-                secondName,
-                birth,
-                isNetworkAvailable
-            )
+            regionMap[reg]?.let {
+                model.getData(
+                    it,
+                    lastName,
+                    firstName,
+                    secondName,
+                    birth,
+                    isNetworkAvailable
+                )
+            }
         }
     }
 

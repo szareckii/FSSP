@@ -57,11 +57,11 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         View.OnClickListener {
             regionEditText = region_edit_text.text.toString()
             onSearchClickListener?.onClick(
-             regionMap[regionEditText] ?: "10",
-                    lastnameEditText.text.toString(),
-                    firstnameEditText.text.toString(),
-                    secondnameEditText.text.toString(),
-                    birthdateEditText.text.toString(),
+                regionEditText,
+                lastnameEditText.text.toString(),
+                firstnameEditText.text.toString(),
+                secondnameEditText.text.toString(),
+                birthdateEditText.text.toString(),
             )
             dismiss()
             saveToSharePreference()

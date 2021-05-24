@@ -1,6 +1,7 @@
 package com.szareckii.searchinthebasefssp.view.history
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -39,6 +40,7 @@ class HistoryActivity : BaseActivity<StateHistoryEntity>() {
     private val onListItemClickListener: HistoryAdapter.OnListItemClickListener =
         object : HistoryAdapter.OnListItemClickListener {
             override fun onItemClick(data: HistoryEntity) {
+                Log.e("11111111111111111", "startActivity1")
                 startActivity(
                     regionMapNumber[data.region]?.let {
                         MainActivity.getIntent(
