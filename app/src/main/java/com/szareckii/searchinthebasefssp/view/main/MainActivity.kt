@@ -129,6 +129,7 @@ class MainActivity : BaseActivity<AppStateResult>() {
                 appStateResult.data?.let {
                     val dataModel = appStateResult.data
                     if (dataModel.responseResult?.resultList?.get(0)?.resultDetailList?.size == 0) {
+                        adapter.clearData()
                         showAlertDialog(
                             getString(R.string.dialog_tittle_sorry),
                             getString(R.string.empty_server_response_on_success)

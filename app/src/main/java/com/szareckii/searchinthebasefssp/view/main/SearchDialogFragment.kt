@@ -2,9 +2,7 @@ package com.szareckii.searchinthebasefssp.view.main
 
 import android.app.DatePickerDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.StructuredPostal.REGION
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -41,35 +39,59 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
     var savedMonth = ""
     var savedYear = ""
 
-//    private val textWatcher = object : TextWatcher {
-//
-//        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//            searchButton.isEnabled = lastnameEditText.text != null && !lastnameEditText.text.toString().isEmpty() &&
-//                    firstnameEditText.text != null && !firstnameEditText.text.toString().isEmpty()
-//        }
-//
-//        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-//
-//        override fun afterTextChanged(s: Editable) {}
-//    }
+    private val textWatcherLastname = object : TextWatcher {
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            if(lastnameEditText.text != null || !lastnameEditText.text.toString().isEmpty()) {
+                lastname_input_layout.error = null
+            }
+        }
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun afterTextChanged(s: Editable) {}
+    }
+
+    private val textWatcherFirsrname = object : TextWatcher {
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            if(firstnameEditText.text != null || !firstnameEditText.text.toString().isEmpty()) {
+                firstname_input_layout.error = null
+            }
+        }
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun afterTextChanged(s: Editable) {}
+    }
 
     private val onSearchButtonClickListener =
         View.OnClickListener {
+            var verificator = 0
+            //Если обязательные поля формы пустые, то предупреждени
+            if(lastnameEditText.text == null || lastnameEditText.text.toString().isEmpty()) {
+                lastname_input_layout.error = getString(R.string.error_lastname)
+                verificator = 1
+            }
 
-            lastname_input_layout.error =  getString(R.string.error_lastname)
-            firstname_input_layout.error =  getString(R.string.error_firstname)
-            region_input_layout.error =  getString(R.string.error_region)
+            if(firstnameEditText.text == null || firstnameEditText.text.toString().isEmpty()) {
+               firstname_input_layout.error = getString(R.string.error_firstname)
+                verificator = 1
+            }
 
-//            regionEditText = region_edit_text.text.toString()
-//            onSearchClickListener?.onClick(
-//                regionEditText,
-//                lastnameEditText.text.toString().capitalize(Locale.ROOT),
-//                firstnameEditText.text.toString().capitalize(Locale.ROOT),
-//                secondnameEditText.text.toString().capitalize(Locale.ROOT),
-//                birthdateEditText.text.toString(),
-//            )
-//            dismiss()
-//            saveToSharePreference()
+            if(regionEditText.length == 0) {
+                region_input_layout.error = getString(R.string.error_region)
+                verificator = 1
+            }
+
+            if(verificator == 1) {
+                return@OnClickListener
+            }
+
+            regionEditText = region_edit_text.text.toString()
+            onSearchClickListener?.onClick(
+                regionEditText,
+                lastnameEditText.text.toString().capitalize(Locale.ROOT),
+                firstnameEditText.text.toString().capitalize(Locale.ROOT),
+                secondnameEditText.text.toString().capitalize(Locale.ROOT),
+                birthdateEditText.text.toString(),
+            )
+            dismiss()
+            saveToSharePreference()
         }
 
     internal fun setOnSearchClickListener(listener: OnSearchClickListener) {
@@ -89,8 +111,8 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         setListOfRegions()
         setEditTextOfPhusical()
         pickDate()
-//        lastnameEditText.addTextChangedListener(textWatcher)
-//        firstnameEditText.addTextChangedListener(textWatcher)
+        lastnameEditText.addTextChangedListener(textWatcherLastname)
+        firstnameEditText.addTextChangedListener(textWatcherFirsrname)
         searchButton.setOnClickListener(onSearchButtonClickListener)
         readSharePreference()
     }
@@ -110,7 +132,6 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
 
     private fun setEditTextOfPhusical() {
         searchButton = search_button_textview
-//        searchButton.isEnabled = false
         lastnameEditText = lastname_edit_text
         firstnameEditText = firstname_edit_text
         secondnameEditText = secondname_edit_text
