@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,10 @@ import com.szareckii.searchinthebasefssp.R
 import com.szareckii.searchinthebasefssp.utils.regionMap
 import kotlinx.android.synthetic.main.search_dialog_fragment.*
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import java.util.regex.PatternSyntaxException
+
 
 class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDateSetListener {
 
@@ -39,6 +44,8 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
     var savedMonth = ""
     var savedYear = ""
 
+    private val cyrillicRegex = "[А-яЁё]+"
+
     private val textWatcherLastname = object : TextWatcher {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             if(lastnameEditText.text != null || !lastnameEditText.text.toString().isEmpty()) {
@@ -59,21 +66,47 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         override fun afterTextChanged(s: Editable) {}
     }
 
+    fun isMatchingRegexp(text: String?, cyrillicRegex: String?): Boolean {
+        var pattern: Pattern? = null
+        try {
+            pattern = Pattern.compile(cyrillicRegex)
+        } catch (e: PatternSyntaxException) {
+            e.printStackTrace()
+        }
+        if (pattern == null) {
+            return false
+        }
+        val regexp: Matcher = pattern.matcher(text)
+        return regexp.matches()
+    }
+
     private val onSearchButtonClickListener =
         View.OnClickListener {
+            regionEditText = region_edit_text.text.toString()
             var verificator = 0
-            //Если обязательные поля формы пустые, то предупреждени
-            if(lastnameEditText.text == null || lastnameEditText.text.toString().isEmpty()) {
+            //Если обязательные поля формы пустые, то предупреждение
+
+            if(!isMatchingRegexp(lastnameEditText.text.toString(), cyrillicRegex)) {
+                lastname_input_layout.error = getString(R.string.error_cyrillic)
+                verificator = 1
+            }
+
+            if((lastnameEditText.text == null || lastnameEditText.text.toString().isEmpty())) {
                 lastname_input_layout.error = getString(R.string.error_lastname)
                 verificator = 1
             }
 
-            if(firstnameEditText.text == null || firstnameEditText.text.toString().isEmpty()) {
-               firstname_input_layout.error = getString(R.string.error_firstname)
+            if(!isMatchingRegexp(firstnameEditText.text.toString(), cyrillicRegex)) {
+                firstname_input_layout.error = getString(R.string.error_cyrillic)
                 verificator = 1
             }
 
-            if(regionEditText.length == 0) {
+            if(firstnameEditText.text == null || firstnameEditText.text.toString().isEmpty()) {
+                firstname_input_layout.error = getString(R.string.error_firstname)
+                verificator = 1
+            }
+
+            if(regionEditText == "") {
                 region_input_layout.error = getString(R.string.error_region)
                 verificator = 1
             }
@@ -82,7 +115,6 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
                 return@OnClickListener
             }
 
-            regionEditText = region_edit_text.text.toString()
             onSearchClickListener?.onClick(
                 regionEditText,
                 lastnameEditText.text.toString().capitalize(Locale.ROOT),
@@ -126,8 +158,7 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
         firstname_edit_text.setText(sharedPref.getString("firstname", defaultValue))
         secondname_edit_text.setText(sharedPref.getString("secondname", defaultValue))
         birthdate_edit_text.setText(sharedPref.getString("birthdate", defaultValue))
-        region_edit_text.setText(regionMap[sharedPref.getString("region", defaultValue)]?.
-            let { adapter.getItem(it.toInt()-1).toString() }, false)
+        region_edit_text.setText(regionMap[sharedPref.getString("region", defaultValue)]?.let { adapter.getItem(it.toInt() - 1).toString() }, false)
     }
 
     private fun setEditTextOfPhusical() {
@@ -194,11 +225,11 @@ class SearchDialogFragment : BottomSheetDialogFragment(), DatePickerDialog.OnDat
 
     interface OnSearchClickListener {
         fun onClick(
-            region: String,
-            lastname: String,
-            firstname: String,
-            secondname: String,
-            birthdate: String,
+                region: String,
+                lastname: String,
+                firstname: String,
+                secondname: String,
+                birthdate: String,
         )
     }
 
