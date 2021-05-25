@@ -23,4 +23,7 @@
     <string name="dialog_title_stub">Неожиданная ошибка</string>
     <string name="dialog_tittle_sorry">Извините</string>
     <string name="menu_title_history">История</string>
+    <string name="error_lastname">Укажите фамилию</string>
+    <string name="error_firstname">Укажите имя</string>
+    <string name="error_region">Укажите регион</string>
 </resources>

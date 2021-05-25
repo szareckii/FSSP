@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
+            app:errorEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/search_lastname_hint">
 
@@ -46,7 +47,6 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/margin_xxxx_small"
         android:layout_marginBottom="@dimen/margin_xxxx_small"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginStart="@dimen/margin_medium"
@@ -58,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
+            app:errorEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/search_firstname_hint">
 
@@ -99,7 +100,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/margin_xxxx_small"
+        android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginBottom="@dimen/margin_xxxx_small"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginStart="@dimen/margin_medium"
@@ -125,7 +126,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/margin_xxxx_small"
+        android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginBottom="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginStart="@dimen/margin_medium"
@@ -135,6 +136,7 @@
             android:id="@+id/region_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:errorEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:hint="@string/search_region_hint">
 

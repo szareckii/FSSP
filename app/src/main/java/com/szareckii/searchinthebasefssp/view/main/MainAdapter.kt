@@ -1,6 +1,5 @@
 package com.szareckii.searchinthebasefssp.view.main
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,11 @@ class MainAdapter() :
 
     fun setData(data: DataModelResult) {
         this.data = data
+        notifyDataSetChanged()
+    }
+
+    fun clearData() {
+        this.data = null
         notifyDataSetChanged()
     }
 
