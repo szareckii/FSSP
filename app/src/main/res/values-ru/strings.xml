@@ -26,4 +26,5 @@
     <string name="error_lastname">Укажите фамилию</string>
     <string name="error_firstname">Укажите имя</string>
     <string name="error_region">Укажите регион</string>
+    <string name="error_cyrillic">Введите ФИО используя кириллицу</string>
 </resources>

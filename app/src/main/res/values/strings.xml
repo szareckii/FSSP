@@ -33,4 +33,5 @@
     <string name="error_lastname">Enter surname</string>
     <string name="error_firstname">Enter firstname</string>
     <string name="error_region">Enter region</string>
+    <string name="error_cyrillic">Enter name using Cyrillic </string>
 </resources>
